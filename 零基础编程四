@@ -38,13 +38,10 @@
 
                 }
 
+                   newNode.onclick=function () {
+                    this.outerHTML='';
 
-                //点击左侧移除 弹出移除的数字并左侧移除。
-                    document.getElementById("left-out").onclick = function () {
-                        var removeNode = ul.removeChild(ul.firstChild);
-                        alert(removeNode.innerHTML);
-
-                    };
+                   };
 
             };
 
@@ -52,27 +49,31 @@
              //input输入数字并点击右侧插入
             document.getElementById("right-in").onclick=function () {
 
-                var newNode2=document.createElement("li");
-                newNode2.innerHTML=txtNumber.value;
+                var newNode2 = document.createElement("li");
+                newNode2.innerHTML = txtNumber.value;
 
 
-                reg=/^[-+]?\d*$/;////整数的正则表达式;
+                reg = /^[-+]?\d*$/;////整数的正则表达式;
 
-                if(!reg.test(txtNumber.value)){
+                if (!reg.test(txtNumber.value)) {
                     alert("必须是整数！");//当输入框填入非整数的提示
 
                 }
 
-                else if(txtNumber.value==""){
+                else if (txtNumber.value == "") {
                     alert("please give me a number!");//当输入框为空时弹出提示对话框
                 }
-                else{
+                else {
                     ul.appendChild(newNode2);
-                    newNode2.style.width="100px";
-                    newNode2.style.height="150px";
-                    newNode2.style.backgroundColor="yellow";
+                    newNode2.style.width = "100px";
+                    newNode2.style.height = "150px";
+                    newNode2.style.backgroundColor = "yellow";
                 }
+                newNode2.onclick=function () {
+                    this.outerHTML='';
 
+                }
+            };
 
                 //点击右侧移除，弹出数字并从右侧移除
 
@@ -83,20 +84,22 @@
                 };
 
 
+
+            //点击左侧移除 弹出移除的数字并左侧移除。
+            document.getElementById("left-out").onclick = function () {
+                var removeNode = ul.removeChild(ul.firstChild);
+                alert(removeNode.innerHTML);
+
             };
+
+
+
 
             //删除子节点元素。
 
 
 
-                var child = ul.childNodes;
-            ul.onclick=function () {
-                for (var i = 0; i < child.length; i++) {
 
-
-                    ul.removeChild(child[i]);
-                }
-            }
 
         }
     </script>
