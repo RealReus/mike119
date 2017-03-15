@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>零基础编程四</title>
+    <style>
+        li{
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        var arry=[];
+
+        function myFunction() {
+            //获取ul元素以及input输入框
+            var ul = document.getElementById("good");
+            var txtNumber=document.getElementById("txtValue");
+
+            //input输入数字并点击左侧插入。
+            document.getElementById("left-in").onclick = function () {
+                var newNode = document.createElement("li");
+                newNode.innerHTML=txtNumber.value;
+                reg=/^[-+]?\d*$/;////整数的正则表达式;
+                if(!reg.test(txtNumber.value)){
+                    alert("必须是整数！");//当输入框填入非整数的提示
+
+                }
+                else if (txtNumber.value==""){
+                    alert("不能为空"); //当输入框为空时弹出提示对话框
+                }
+                //输入范围整数在10-100
+                else if(parseInt(txtNumber.value)==txtNumber.value&&parseInt(txtNumber.value)>=10&&parseInt(txtNumber.value)<=100){
+                    //限制增加的子节点数量
+                    var num=txtNumber.value;
+                    arry.push(ul.childNodes);
+                    if(arry.length<=60){
+                    var nextNode = ul.insertBefore(newNode, ul.firstChild);
+                    newNode.style.height = num+"px";
+                    newNode.style.width="50px";
+                    newNode.style.backgroundColor = "red";
+                    }
+                    else {
+                        alert("超出数量");
+                    }
+                }
+                else{
+
+                    alert("输入数字不在范围内");
+
+                }
+                    //删除节点
+                   newNode.onclick=function () {
+                    this.outerHTML='';
+
+                   };
+
+            };
+
+
+             //input输入数字并点击右侧插入
+            document.getElementById("right-in").onclick=function () {
+                var newNode2 = document.createElement("li");
+                newNode2.innerHTML = txtNumber.value;
+                reg = /^[-+]?\d*$/;////整数的正则表达式;
+                if (!reg.test(txtNumber.value)) {
+                    alert("必须是整数！");//当输入框填入非整数的提示
+                }
+                 //输入内容为空
+                else if (txtNumber.value == "") {
+                    alert("输入内容不能为空");//当输入框为空时弹出提示对话框
+                }
+                //输入范围整数在10-100
+                else if(parseInt(txtNumber.value)==txtNumber.value&&parseInt(txtNumber.value)>=10&&parseInt(txtNumber.value)<=100){
+                    ////限制增加的子节点数量
+                    var num2=txtNumber.value;
+                    arry.push(ul.childNodes);
+                    if (arry.length <= 60) {
+                        ul.appendChild(newNode2);
+                        newNode2.style.width = "50px";
+                        newNode2.style.height =num2+"px";
+                        newNode2.style.backgroundColor = "yellow";
+                    }
+                    else {
+                        alert("超出数量")
+                    }
+                }
+                else {
+                    alert("输入数字不在范围内");
+                }
+                //删除节点
+                newNode2.onclick=function () {
+                    this.outerHTML='';
+
+                }
+            };
+
+                //点击右侧移除，弹出数字并从右侧移除
+            document.getElementById("right-out").onclick=function () {
+                    var removeNode2=ul.removeChild(ul.lastChild);
+                    alert(removeNode2.innerHTML);
+
+                };
+
+            //点击左侧移除 弹出移除的数字并左侧移除。
+            document.getElementById("left-out").onclick = function () {
+                var removeNode = ul.removeChild(ul.firstChild);
+                alert(removeNode.innerHTML);
+
+            }
+            
+        }
+
+       
+    </script>
+</head>
+<body onload="myFunction()">
+<input type="text" id="txtValue" value=""><button id="left-in"> 左侧入</button>&nbsp;<button id="right-in" >右侧入</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="left-out" >左侧出</button>&nbsp;<button id="right-out" >右侧出</button>
+<br>
+<br>
+<ul id="good"></ul>
+</body>
+</html>
