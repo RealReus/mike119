@@ -2,123 +2,192 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>零基础编程四</title>
+    <title>零基础编程练习五</title>
     <style>
-        li{
+        li {
+            list-style: none;
             display: inline-block;
-            margin: 5px;
-            padding: 10px;
+            vertical-align: bottom;
+            background-color: red;
+            width: 50px;
+            margin-left: 5px;
+            border: dotted;
+            border-color: white;
+            text-align: center;
         }
     </style>
-    <script>
-        var arry=[];
+</head>
+<body>
+<input id="txtValue" type="number"><button id="left-in">左侧进入</button>&nbsp;<button id="right-in"> 右侧进入</button>&nbsp;
+<button id="left-out">左侧移出</button>&nbsp;<button id="right-out"> 右侧移出</button>&nbsp;<button id="single">单元素冒泡</button>
+<button id="bubble"> 冒泡排序</button>
+<ul id="good"></ul>
+<script>
+    var numValue=document.getElementById("txtValue");
+    var leftIn=document.getElementById("left-in");
+    var rightIn=document.getElementById("right-in");
+    var leftOut=document.getElementById("left-out");
+    var rightOut=document.getElementById("right-out");
+    var singSort=document.getElementById("single");
+    var bubbleSort=document.getElementById("bubble");
+    var ul=document.getElementById("good");
 
-        function myFunction() {
-            //获取ul元素以及input输入框
-            var ul = document.getElementById("good");
-            var txtNumber=document.getElementById("txtValue");
+    function numberValue() {
+        var item=numValue.value;
+        if(isNaN(item)){
+            alert("请输入数字");
 
-            //input输入数字并点击左侧插入。
-            document.getElementById("left-in").onclick = function () {
-                var newNode = document.createElement("li");
-                newNode.innerHTML=txtNumber.value;
-                reg=/^[-+]?\d*$/;////整数的正则表达式;
-                if(!reg.test(txtNumber.value)){
-                    alert("必须是整数！");//当输入框填入非整数的提示
-
-                }
-                else if (txtNumber.value==""){
-                    alert("不能为空"); //当输入框为空时弹出提示对话框
-                }
-                //输入范围整数在10-100
-                else if(parseInt(txtNumber.value)==txtNumber.value&&parseInt(txtNumber.value)>=10&&parseInt(txtNumber.value)<=100){
-                    //限制增加的子节点数量
-                    var num=txtNumber.value;
-                    arry.push(ul.childNodes);
-                    if(arry.length<=60){
-                    var nextNode = ul.insertBefore(newNode, ul.firstChild);
-                    newNode.style.height = num+"px";
-                    newNode.style.width="50px";
-                    newNode.style.backgroundColor = "red";
-                    }
-                    else {
-                        alert("超出数量");
-                    }
-                }
-                else{
-
-                    alert("输入数字不在范围内");
-
-                }
-                    //删除节点
-                   newNode.onclick=function () {
-                    this.outerHTML='';
-
-                   };
-
-            };
-
-
-             //input输入数字并点击右侧插入
-            document.getElementById("right-in").onclick=function () {
-                var newNode2 = document.createElement("li");
-                newNode2.innerHTML = txtNumber.value;
-                reg = /^[-+]?\d*$/;////整数的正则表达式;
-                if (!reg.test(txtNumber.value)) {
-                    alert("必须是整数！");//当输入框填入非整数的提示
-                }
-                 //输入内容为空
-                else if (txtNumber.value == "") {
-                    alert("输入内容不能为空");//当输入框为空时弹出提示对话框
-                }
-                //输入范围整数在10-100
-                else if(parseInt(txtNumber.value)==txtNumber.value&&parseInt(txtNumber.value)>=10&&parseInt(txtNumber.value)<=100){
-                    ////限制增加的子节点数量
-                    var num2=txtNumber.value;
-                    arry.push(ul.childNodes);
-                    if (arry.length <= 60) {
-                        ul.appendChild(newNode2);
-                        newNode2.style.width = "50px";
-                        newNode2.style.height =num2+"px";
-                        newNode2.style.backgroundColor = "yellow";
-                    }
-                    else {
-                        alert("超出数量")
-                    }
-                }
-                else {
-                    alert("输入数字不在范围内");
-                }
-                //删除节点
-                newNode2.onclick=function () {
-                    this.outerHTML='';
-
-                }
-            };
-
-                //点击右侧移除，弹出数字并从右侧移除
-            document.getElementById("right-out").onclick=function () {
-                    var removeNode2=ul.removeChild(ul.lastChild);
-                    alert(removeNode2.innerHTML);
-
-                };
-
-            //点击左侧移除 弹出移除的数字并左侧移除。
-            document.getElementById("left-out").onclick = function () {
-                var removeNode = ul.removeChild(ul.firstChild);
-                alert(removeNode.innerHTML);
+        }
+        else {
+            if(parseInt(item)>=10&&parseInt(item)<=100){
+                return item;
 
             }
-            
+            else {
+                alert("请输入10-100之间的数字")
+
+            }
+        }
+    }
+//创建节点
+    function createElement(text) {
+        var liList=document.createElement("li");
+        liList.innerText=parseInt(text);
+        liList.style.height=text+"px";
+        addHandler(liList,"click",delSelf);
+        return liList;
+
+    }
+    //绑定事件的函数
+    function addHandler(element,type,fun) {
+        if(element.addEventListener) {
+            element.addEventListener(type, fun, false);
+        }
+        else if(element.attachEvent){
+            element.attachEvent("on"+type,fun);
+        } else{
+            element["on"+type]=fun;
         }
 
-       
-    </script>
-</head>
-<body onload="myFunction()">
-<input type="text" id="txtValue" value=""><button id="left-in"> 左侧入</button>&nbsp;<button id="right-in" >右侧入</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="left-out" >左侧出</button>&nbsp;<button id="right-out" >右侧出</button>
-<br>
-<br>
-<ul id="good"></ul>
+    }
+    //队列操作，flag：-2 左侧出，-1左侧进；1右侧进，2右侧处；
+    function myFunction(item,flag) {
+        if(item&&flag===1){
+            var liList=createElement(item);
+            if(ul.children.length>60){
+                alert("队列已满");
+            }else {
+                ul.appendChild(liList);
+            }
+
+        }
+        else if(item&&flag===-1){
+            var liList=createElement(item);
+            if(ul.children.length>60){
+                alert("列队已满");
+            }
+            else {
+                ul.insertBefore(liList,ul.firstChild);
+            }
+        }
+        else if(flag===2){
+            if(ul.hasChildNodes()){
+                ul.removeChild(ul.lastChild)
+            }
+        }
+        else if(flag===-2){
+            if(ul.hasChildNodes()){
+                ul.removeChild(ul.firstChild)
+            }
+        }
+        else {
+            return;
+        }
+    }
+    //左侧插入元素
+    function leftInElemnt() {
+        var item=numberValue();
+        if(item){
+            myFunction(item,-1);
+            numValue.value="";
+
+        }
+    }
+    //右侧插入元素
+    function rightInElement() {
+        var item=numberValue();
+        if(item){
+            myFunction(item,1);
+            numValue.value="";
+        }
+
+    }
+    //左侧移除元素
+    function leftOutElement() {
+        if(ul.hasChildNodes()){
+            var item=ul.firstChild.innerText;
+            alert(item);
+            myFunction(item,-2);
+        }
+
+    }
+    //右侧移除元素
+    function rightOutElement() {
+        if(ul.hasChildNodes()){
+            var item=ul.lastChild.innerText;
+            alert(item);
+            myFunction(item,2);
+        }
+    }
+    //点击队列元素删除
+    function delSelf() {
+        var parent=this.parentNode;
+        if(parent){
+            parent.removeChild(this);
+        }
+
+    }
+    function singleSort() {
+        var swapI;
+        var swapJ;
+        var liNodes=ul.children;
+        for(var i=0;i<liNodes.length-1;i++)
+            for(var j=i+1;j<liNodes.length;j++){
+            if(liNodes[i].clientHeight>liNodes[j].clientHeight){
+                swapI=ul.children[i].cloneNode(true);
+                swapJ=ul.children[j].cloneNode(true);
+                ul.replaceChild(swapI,ul.children[j]);
+                ul.replaceChild(swapJ,ul.children[i]);
+            }
+            break;
+        }
+
+    }
+    function bubble() {
+        var swapI;
+        var swapJ;
+        var liNodes = ul.children;
+        for (var i = 0; i < liNodes.length - 1; i++)
+            for (var j = i + 1; j < liNodes.length; j++){
+                if (liNodes[i].clientHeight > liNodes[j].clientHeight) {
+                    swapI = ul.children[i].cloneNode(true);
+                    swapJ = ul.children[j].cloneNode(true);
+                    ul.replaceChild(swapI, ul.children[j]);
+                    ul.replaceChild(swapJ, ul.children[i]);
+                }
+    }
+
+    }
+    function init() {
+        addHandler(leftIn,"click",leftInElemnt);
+        addHandler(rightIn,"click",rightInElement);
+        addHandler(leftOut,"click",leftOutElement);
+        addHandler(rightOut,"click",rightOutElement);
+        addHandler(singSort,"click",singleSort);
+        addHandler(bubbleSort,"click",bubble);
+
+    }
+    init();
+</script>
 </body>
 </html>
