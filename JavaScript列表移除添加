@@ -1,0 +1,82 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <head>
+ </head>
+<body>
+    <select id="oldSelect" name="love1" size="10" multiple>
+        <option value="travl">旅游</option>
+        <option value="NBA">NBA体育</option>
+        <option value="study">学习</option>
+        <option value="music">音乐</option>
+        <option value="library">图书馆</option>
+        <option value="bookshop">新华书店</option>
+        <option value="shopping">逛街购物</option>
+    </select>
+    <input type="button" id="btnMove" value=">>>>">
+    <select id="newSelect" name="love2" size="10" multiple>
+    </select>
+</body>
+<script language="JavaScript">
+String.prototype.trimEnd = function(trimString) {
+    var re = new RegExp(trimString+"*$", "g");
+    return this.replace(re, "");
+};
+
+Array.prototype.indexOf = function(itemValue) {
+    var nIndex = -1;
+    for (var i=0; i<this.length; i++)
+    {
+        if (this[i] == itemValue) nIndex = i;
+    }
+    return nIndex;
+};
+var oSrc = document.getElementById("oldSelect");
+var oTarget = document.getElementById("newSelect");
+var oCopy = document.getElementById("btnMove");
+oCopy.onclick = function() {
+    var aSelectedIndexes = getSelectedIndexes(oSrc);
+    for (var i=0; i<aSelectedIndexes.length; i++)
+    {
+        var oOption = document.createElement("OPTION");
+        oOption.text = oSrc.options[aSelectedIndexes[i]].text;
+        oOption.value = oSrc.options[aSelectedIndexes[i]].value;
+        oTarget.options.add(oOption);
+  }
+function getSelectedIndexes(oSrc)
+{
+    var aSelectedIndexes = new Array();
+
+    for (var i=0; i<oSrc.options.length; i++)
+    {
+        if (oSrc.options[i].selected)
+            aSelectedIndexes[aSelectedIndexes.length] = i;
+    }
+
+    return aSelectedIndexes;
+}
+
+oSrc.onclick = function() {
+    this.selectedIndexes = getSelectedIndexes(this);
+    if (this.selectedIndexes.length == 1)
+        this.options[this.selectedIndexes].selected = false;
+};
+
+oSrc.onchange = function() {
+    var j = this.selectedIndexes.indexOf(this.selectedIndex);
+    if (j > -1)
+    {
+        this.options[this.selectedIndex].selected = false;
+        this.selectedIndexes.splice(j, 1);
+    }
+    if (this.selectedIndexes.length > 0)
+    {
+        var nSelectedIndex;
+        for (var i=0; i<this.selectedIndexes.length; i++)
+        {
+            nSelectedIndex = parseInt(this.selectedIndexes[i]);
+            this.options[nSelectedIndex].selected = true;
+        }
+    }
+};
+</script>
+</html>
