@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>标题页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+<body>
+<br>
+<tr align="center">
+    <td>
+        <textarea name="textvalue" id="txt" rows="30" cols="20"  placeholder="请输入0-150个字符，可以输入英文中文，全半角已设置禁止拷贝复制" maxlength="150" onkeydown="textcontrol()"
+       onpaste="return false";           onkeyup="textcontrol()">
+
+        </textarea>
+    </td>
+
+</tr>
+<br>
+<br>
+<tr align="center">
+
+    您还可以输入<span id="valueNum"> 140</span>字
+
+</tr>
+<script>
+    function textcontrol() {
+        var content=document.getElementById("txt").value;
+
+        if(content.length>150){
+            document.getElementById("txt").value=document.getElementById("txt").value.substring(0,150);
+        }
+        else{
+            document.getElementById("valueNum").innerHTML=150-content.length;
+        }
+    }
+</script>
+</body>
+
+
+</html>
