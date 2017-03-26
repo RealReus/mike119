@@ -1,0 +1,85 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+<title>列表框排序ҳ</title>
+<script language="javascript">
+function move(listItem,listObj) {                              /
+    var i = 0;
+    if(listItem.value != "") {                       
+        var newOp = new Option();                                 /
+        newOp.value = listItem.value;                             
+        newOp.text = listItem.value;                              
+        listObj.options[listObj.options.length] = newOp;          /
+        listItem.value = "";
+       }
+}
+
+function remove(listObj) {                                        
+    for(var i=0; i<listObj.options.length; i++) {
+        if(listObj.options[i].selected && listObj.options[i] != "") {
+            listObj.options[i].value = "";                        
+            listObj.options[i].text = "";                         
+        }
+    }
+    delAfter(listObj);                                             
+} 
+function delAfter(alistObj) {
+    for(var i = 0; i < alistObj.options.length; i++) {
+        if(alistObj.options[i].value == "")  {                 
+            for(var j = i; j < alistObj.options.length - 1; j++)  {
+                alistObj.options[j].value = alistObj.options[j + 1].value; 
+                alistObj.options[j].text = alistObj.options[j + 1].text;
+            }
+        var ln = i;
+        break;
+       }
+    }
+    if(ln < alistObj.options.length)  {
+        alistObj.options.length -= 1;
+        delAfter(alistObj);
+    }
+}
+function Moveup(listObj) {                                         
+    for(var i = 0; i < listObj.options.length; i++) {              
+        if (listObj.options[i].selected && listObj.options[i] != "" && listObj.options[i] != listObj.options[0]) {
+            var tmpval1 = listObj.options[i].value;                
+            var tmpval12 = listObj.options[i].text;             
+            listObj.options[i].value = listObj.options[i - 1].value;  
+            listObj.options[i].text = listObj.options[i - 1].text     /
+            listObj.options[i-1].value = tmpval1;          
+            listObj.options[i-1].text = tmpval12;                  
+        }
+    }
+}
+function Movedown(listObj) {                                      
+    for(var i = 0; i < listObj.options.length; i++) {
+        if (listObj.options[i].selected && listObj.options[i] != "" && listObj.options[i+1] != listObj.options[listObj.options.length]) {
+            var tmpval1 = listObj.options[i].value;                
+            var tmpval12 = listObj.options[i].text;                
+            listObj.options[i].value = listObj.options[i+1].value; 
+            listObj.options[i].text = listObj.options[i+1].text    
+            listObj.options[i+1].value = tmpval1;                  
+            listObj.options[i+1].text = tmpval12;                  
+         }
+    }
+}
+</script>
+</head>
+<body>
+<form>
+<input type="text" name="listItem1" value=""><br />
+<input type="button" value="添加" onclick="move(this.form.listItem1,this.form.listView1)" name="btnAdd">
+<input type="button" value="删除" onclick="remove(this.form.listView1)" name="btnDel">
+<input type="button" value="上移" onclick="Moveup(this.form.listView1)" name="btnUp">
+<input type="button" value="下移" onclick="Movedown(this.form.listView1)" name="btnDown"><br />
+    <select multiple size=10 name="listView1" style="width:120px">
+    <option value="one">第1名</option>
+    <option value="two">第2名</option>
+    <option value="three">第3名</option>
+    <option value="four">第4名</option>
+    <option value="five">第5名</option>
+    <option value="six">第6名</option>
+    </select>
+</form> 
+</body>
+</html>
