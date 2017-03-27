@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>零基础编程练习六</title>
+    <style>
+        #button{
+            display: inline-block;
+        }
+        ul{
+            list-style: none;
+        }
+        li {
+            background-color:rgba(255, 164, 66, 0.86);
+            display:inline-block;
+            width:50px;
+            padding:10px;
+            margin-left:10px;
+            color:white;
+        }
+        .red{
+            background: red;
+        }
+    </style>
+
+</head>
+<body>
+
+<textarea id="txt"placeholder="请在评论区内输入中文，英文全半角符号等，字数在150字以内"></textarea>
+<div id="button">
+    <input type="button" id="left-in" value="左侧插入">
+    <input  type="button" id="right-in" value="右侧插入">
+    <input type="button" id="left-out" value="左侧移出">
+    <input type="button" id="right-out" value="右侧移出">
+</div>
+<ul id="txt_list">
+
+</ul>
+<div id="search">
+     <input type="text" value="请输入要查询的内容" id="search_txt"><input type="button" value="搜索" id="test">
+</div>
+<script>
+    var $=function (id) {
+        return document.getElementById(id)
+
+    };
+
+
+    var arr=[];
+    //给按钮的父元素添加事件委托，避免给每个按钮添加点击事件
+    $("button").addEventListener("click",function (e) {
+        var target=e.target;
+        switch (target.id){
+            case"left-in":{
+                cutString();
+                putString();
+                break;
+            }
+            case "right-in":{
+                cutString();
+                putString();
+                break;
+            }
+            case "left-out":{
+                alert(arr.shift(arr[arr.length-1]));
+                putString();
+                break;
+            }
+            case "right-out":{
+                alert(arr.pop(arr[0]));
+                putString();
+                break;
+            }
+        }
+
+
+    });
+    //给输出的结构添加事件委托，使点击的元素被删除
+    $("txt_list").addEventListener("click",function (e) {
+        var target=e.target;
+        if(target.nodeName!="LI")
+            return;
+        var tar=parseInt(target.getAttribute("id"));
+        arr.splice(tar,1);
+        putString();
+        return arr
+
+    });
+
+    function putString() {
+        var list=" ";
+
+        for(var i=0;i<arr.length;i++){
+            list+="<li id='"+i+"'>"+arr[i]+"</li>";
+
+        }
+        txt_list.innerHTML=list;
+
+    }
+    function cutString() {
+        var value=$("txt").value;
+        var content=value.split(/[\s\n\r\，\,\、\t\ ]/);
+        for(var i=0;i<content.length;i++){
+            if(content[i]==""||typeof (content[i])=="undefined"){
+                content.splice(i,1);
+                i--;
+            }
+        }
+        arr=content;
+
+    }
+    $("test").onclick=function () {
+        var search_txt=$("search_txt").value;
+        var txt_list=document.getElementById("txt_list");
+        list=" ";
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].match(search_txt)!=null&&search_txt!=" "){
+                list+="<li id='"+i+"' class='red'>"+arr[i]+"</li>";
+            }
+            else list+="<li id='"+i+"'>"+arr[i]+"</li>";
+        }
+        txt_list.innerHTML=list;
+    }
+</script>
+</body>
+</html>
