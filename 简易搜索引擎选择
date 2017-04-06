@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+<title>综合搜索引擎</title>
+</head>
+<body>
+<form Name="InputForm">
+<div align="center"><p>
+<script language="JavaScript">
+var FirstForm;
+function StartSearch()
+{
+
+document.forms[FirstForm+document.InputForm.SearchSelect.
+selectedIndex].elements[0].value=document.InputForm.SearchWords.value;
+
+document.forms[FirstForm+document.InputForm.SearchSelect.selectedIndex].submit();
+}
+</script>
+<span style="font-size: 9pt">请输入要查找的内容:</span>
+<input name="SearchWords" type="text" size="21" style=" margin-left: 1px"><br>
+<span style="font-size: 9pt">搜索引擎:</span>
+<select Name="SearchSelect" size="1" >
+<option selected>Yahoo搜索</option>
+<option value="Google">Google搜索</option>
+<option value="搜索引擎">中文百度搜索</option>
+</select><br>
+<input type="button" value=" 开始查找 " onClick="StartSearch()">
+<script language="JavaScript">
+FirstForm=document.forms.length
+</script></p>
+</div>
+</form>
+<form action="http://search.yahoo.com/bin/search" method="get">
+<input type="hidden" name="p" value>
+</form>
+<form action="http://www.google.com/search">
+<input type="hidden" name="q" value>
+</form>
+<form action="http://www.baidu.com/s">
+<input type="hidden" name="wd" value>
+</form>
+</body>
+</html>
