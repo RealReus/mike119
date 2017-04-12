@@ -2,172 +2,179 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>零基础编程七</title>
     <style>
-        *{margin: 0;padding: 0;
-        }
-        #best{
-            width: 1200px;
+        *{margin:0;
+        padding: 0}
+        #root{
+            width:1050px;
+           margin:auto;
             display: flex;
-            flex-direction: row;
-            margin: auto;
+           flex-direction: row;
+            border: 1px solid black;
             padding: 10px 5px;
-            border: 1px solid #000;
         }
-        #best *{
+        #root *{
             display: flex;
             flex-direction: row;
             border: 1px solid black;
             margin: 3px;
             padding: 10px 5px;
-            background-color: #ffffff;
+            background-color: #fff;
         }
-        .well{
+        .rootc{
             width: 100px;
             height: 100px;
         }
         #btn{
             width: 200px;
-            height: 30px;
-            border: 1px solid black;
-            margin-left: 600px;
-            margin-top: 10px;
-            border-radius: 5px;
-
+            margin: 15px auto;
         }
+
+
     </style>
     <script>
-        window.onload = function(){
-            function $(obj){
-                return document.getElementById(obj);
-            }
-            //前序遍历
-            function preOrder(node){
-                if(node != null){
-                    arr.push(node);
-                    preOrder(node.firstElementChild);
-                    preOrder(node.lastElementChild);
-                }
+      window.onload=function () {
+          function $(id) {
+              return document.getElementById(id);
+          }
+          //前序遍历
+          function pFunction(node) {
+              if(node!=null){
+              arr.push(node);
+              pFunction(node.firstElementChild);
+            pFunction(node.lastElementChild);
+              }
+          }
+          //中序遍历;
+          function inFunction(node) {
+              if(node!=null) {
+                  inFunction(node.firstElementChild);
+                  arr.push(node);
+                  inFunction(node.lastElementChild);
+              }
+          }
+          //后序遍历
+          function nextFunction(node) {
+              if(node!=null){
+              nextFunction(node.firstElementChild);
+              nextFunction(node.lastElementChild);
+              arr.push(node);
+              }
+          }
+          //动态效果
+          function moveAction(arr) {
+              var child=document.getElementsByTagName('*');
+              clearInterval(time);
+              for(var i=0;len=child.length,i<len;i++){
+                  child[i].style.background="#fff";
+              }
+              var j=0;
+              time=setInterval(function () {
+                  if(j>0){
+                      arr[j-1].style.background="#fff";
+                  }
+                  if(j==arr.length){
+                      clearInterval(time);
+                  }
+                  else{
+                      arr[j].style.background="yellow";
+                      j++;
+                  }
 
-            }
-            //中序遍历
-            function inOrder(node){
-                if(node != null){
-                    inOrder(node.firstElementChild);
-                    arr.push(node);
-                    inOrder(node.lastElementChild);
-                }
-            }
-            //后序遍历
-            function postOrder(node){
-                if(node != null){
-                    postOrder(node.firstElementChild);
-                    postOrder(node.lastElementChild);
-                    arr.push(node);
+              },500)
 
-                }
-            }
-            //动画效果
-            function animation(arr){
-                clearInterval(t);
-                var eles = document.getElementsByTagName('*');
-                for(var k = 0;len = eles.length,k<len;k++){
-                    eles[k].style.background = '#fff';
-                }
-                var i = 0;
-                t = setInterval(function(){
-                    if(i>0){
-                        arr[i-1].style.background = '#fff';
-                    }
-                    if(i == arr.length){
-                        clearInterval(t);
-                    }else{
-                        arr[i].style.background = 'red';
-                        i++;
-                    }
-                },400);
+          }
+          //事件触发
+          function addHandler(element,type,handler) {
+              if(element.addEventListener){
+                  element.addEventListener(type,handler,false)
+              }
+              if(element.attachEvent){
+                  element.attachEvent('on'+type,handler)
+              }
+              else{
+                  element['on'+type]=handler;
+              }
 
-            }
-            //事件处理
-            function addHandler(element,type,handler){
-                if(element.addEventListener){
-                    element.addEventListener(type,handler,false);
-                }else if(element.attachEvent){
-                    element.attachEvent('on'+type,handler);
-                }else{
-                    element['on'+type] = handler;
-                }
-            }
+          }
+          //遍历的事件
+          var root=$("root");
+          var time=null;
+          addHandler($("pre"),"click",function () {
+              arr=[];
+             pFunction(root);
+              moveAction(arr);
 
-            var rootObj = $("best");
-            var t = null;
-            addHandler($("pre"),'click',function(){
-                arr=[];
-                preOrder(rootObj);
-                animation(arr);
-            });
-            addHandler($("medium"),'click',function(){
+          });
+          addHandler($("medium"),"click",function () {
+              arr=[];
+              inFunction(root);
+              moveAction(arr);
 
-                arr=[];
-                inOrder(rootObj);
-                animation(arr);
-            });
-            addHandler($("next"),'click',function(){
+          });
+          addHandler($("next"),"click",function () {
+              arr=[];
+              nextFunction(root);
+              moveAction(arr);
 
-                arr=[];
-                postOrder(rootObj);
-                animation(arr);
-            });
-        }
+          })
+
+      }
     </script>
 </head>
-<body>
-<div id="best">
-    <div class="better">
-        <div class="good">
-            <div class="well">
+<body >
+<div id="root">
+    <div class="roota">
+        <div class="rootb">
+            <div class="rootc">
 
             </div>
-            <div class="well">
+            <div class="rootc">
 
             </div>
 
         </div>
-        <div class="good">
-            <div class="well">
+        <div class="rootb">
+            <div class="rootc">
 
             </div>
-            <div class="well">
+            <div class="rootc">
 
             </div>
-        </div>
 
-    </div>
-    <div class="better">
-        <div class="good">
-            <div class="well">
-
-            </div>
-            <div class="well">
-
-            </div>
-        </div>
-        <div class="good">
-            <div class="well">
-
-            </div>
-            <div class="well">
-
-            </div>
         </div>
 
     </div>
+    <div class="roota">
+        <div class="rootb">
+            <div class="rootc">
+
+            </div>
+            <div class="rootc">
+
+            </div>
+
+        </div>
+        <div class="rootb">
+            <div class="rootc">
+
+            </div>
+            <div class="rootc">
+
+            </div>
+
+        </div>
+    </div>
+
 
 </div>
 <div id="btn">
     <input type="button" id="pre" value="前序遍历">
     <input type="button" id="medium" value="中序遍历">
     <input type="button" id="next" value="后序遍历">
+
 </div>
+
 </body>
 </html>
